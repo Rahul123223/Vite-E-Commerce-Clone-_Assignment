@@ -1,48 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+interface ProductCardProps {
+  products: any[];
+}
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
+const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", padding: "20px" }}>
+    <Box
+      sx={{ display: "flex", flexWrap: "wrap", gap: "20px", padding: "20px" }}
+    >
       {products.map((item) => (
-        <div
+        <Box
           key={item.id}
-          style={{
+          sx={{
             width: "300px",
             border: "1px solid #ccc",
             borderRadius: "8px",
             padding: "16px",
             boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
           }}
         >
           <img
@@ -62,11 +39,20 @@ const ProductList = () => {
           <h3 style={{ fontSize: "18px", margin: "10px 0" }}>{item.title}</h3>
           <p style={{ color: "#555", fontSize: "14px" }}>{item.description}</p>
           <p style={{ fontWeight: "bold" }}>Price: ${item.price}</p>
-          <p>Rating: {item.rating.rate} ({item.rating.count} reviews)</p>
-        </div>
+          <p>
+            Rating: {item.rating.rate} ({item.rating.count} reviews)
+          </p>
+
+          <Link
+            to={`/product/${item.id}`}
+            style={{ textDecoration: "none", color: "blue" }}
+          >
+            View Details
+          </Link>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 };
 
-export default ProductList;
+export default ProductCard;
