@@ -7,7 +7,7 @@ import CartManager from "./pages/CartManager";
 import OrderManager from "./pages/OrderManager";
 import { CartProvider } from "./Context/CartContext";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
-import Login from "./pages/Login"; // Assuming you created a Login component
+import Login from "./pages/Login"; 
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,10 +16,8 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
-          {/* Header */}
           <Header onSearch={(query) => setSearchQuery(query)} />
 
-          {/* Routes */}
           <Routes>
             <Route path="/" element={<Dashboard searchQuery={searchQuery} />} />
             <Route path="/login" element={<Login />} />
@@ -33,12 +31,10 @@ function App() {
   );
 }
 
-// ProtectedRoute component ensures only logged-in users can access certain routes
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { user } = useAuth();
 
   if (!user) {
-    // If the user is not logged in, redirect to the login page
     return <Navigate to="/login" />;
   }
 
