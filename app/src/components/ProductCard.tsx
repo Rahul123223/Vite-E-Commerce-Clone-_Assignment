@@ -15,7 +15,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
   };
 
   return (
-    <Box sx={{ display: "flex", flexWrap: "wrap", gap: "20px", padding: "20px" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "20px",
+        padding: "20px",
+        justifyContent: "center", // Center align cards
+      }}
+    >
       {products.map((item) => (
         <Box
           key={item.id}
@@ -26,30 +34,58 @@ const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
             padding: "16px",
             boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
             textAlign: "center",
-            position: "relative",
+            display: "flex",
+            flexDirection: "column", // Arrange content vertically
+            justifyContent: "space-between",
           }}
         >
+          {/* Product Image */}
           <img
             src={item.image || "https://via.placeholder.com/640x480?text=No+Image"}
             alt={item.title}
-            style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "8px" }}
+            style={{
+              width: "100%",
+              height: "200px",
+              objectFit: "cover",
+              borderRadius: "8px",
+            }}
           />
-          <h3 style={{ fontSize: "18px", margin: "10px 0" }}>{item.title}</h3>
-          <p style={{ color: "#555", fontSize: "14px" }}>{item.description}</p>
-          <p style={{ fontWeight: "bold" }}>Price: ${item.price}</p>
-          <p>
-            Rating: {item.rating.rate} ({item.rating.count} reviews)
-          </p>
 
-          <Link to={`/product/${item.id}`} style={{ textDecoration: "none", color: "blue" }}>
+          {/* Product Details */}
+          <Box sx={{ marginTop: "10px" }}>
+            <h3 style={{ fontSize: "18px", margin: "10px 0" }}>{item.title}</h3>
+            <p style={{ color: "#555", fontSize: "14px" }}>{item.description}</p>
+            <p style={{ fontWeight: "bold" }}>Price: ${item.price}</p>
+            <p>
+              Rating: {item.rating.rate} ({item.rating.count} reviews)
+            </p>
+          </Box>
+
+          {/* View Details Link */}
+          <Link
+            to={`/product/${item.id}`}
+            style={{
+              textDecoration: "none",
+              color: "blue",
+              marginBottom: "10px",
+            }}
+          >
             View Details
           </Link>
 
+          {/* Add to Cart Button */}
           <Tooltip title="Add to Cart">
             <IconButton
-              color="primary"
               onClick={() => handleAddToCart(item)}
-              sx={{ position: "absolute", top: "16px", right: "16px" }}
+              sx={{
+                backgroundColor: "transparent",
+                color: "black", // Set icon color to black
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                "&:hover": {
+                  backgroundColor: "#f0f0f0",
+                },
+              }}
             >
               <AddShoppingCartIcon />
             </IconButton>

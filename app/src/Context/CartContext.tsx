@@ -19,6 +19,7 @@ interface CartContextType {
   getTotalPrice: () => number;
   placeOrder: () => void;
   getOrders: () => CartItem[][];
+  clearOrders: () => void; // Added clearOrders
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -29,7 +30,7 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [orders, setOrders] = useState<CartItem[][]>([]); 
+  const [orders, setOrders] = useState<CartItem[][]>([]);
 
   const addToCart = (product: CartItem) => {
     setCart((prevCart) => {
@@ -77,12 +78,16 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const placeOrder = () => {
     console.log("Order placed:", cart);
-    setOrders((prevOrders) => [...prevOrders, cart]); 
+    setOrders((prevOrders) => [...prevOrders, [...cart]]); // Clone the current cart
     setCart([]);
   };
 
   const getOrders = () => {
     return orders;
+  };
+
+  const clearOrders = () => {
+    setOrders([]); // Clear all orders
   };
 
   return (
@@ -98,6 +103,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         getTotalPrice,
         placeOrder,
         getOrders,
+        clearOrders, // Provide clearOrders to the context
       }}
     >
       {children}

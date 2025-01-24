@@ -26,9 +26,17 @@ const CategoryFilter = ({
           key={category}
           label={category}
           clickable
-          color={selectedCategory === category ? "primary" : "default"}
           onClick={() => onCategoryClick(category)}
-          sx={{ marginRight: 1, marginBottom: 1 }}
+          sx={{
+            marginRight: 1,
+            marginBottom: 1,
+            textDecoration: selectedCategory === category ? "underline" : "none",
+            backgroundColor: "transparent", 
+            "&:hover": {
+              textDecoration: "underline", 
+            },
+            fontWeight: selectedCategory === category ? "bold" : "normal", 
+          }}
         />
       ))}
     </Box>
