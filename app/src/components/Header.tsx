@@ -1,98 +1,63 @@
-import {
-    AppBar,
-    Box,
-    Toolbar,
-    Typography,
-    useMediaQuery,
-    IconButton,
-    TextField,
-    InputAdornment,
-  } from "@mui/material";
-  import MenuIcon from "@mui/icons-material/Menu";
-  import SearchIcon from "@mui/icons-material/Search";
-  import { useState } from "react";
-  
-  interface HeaderProps {
-    onSearch: (query: string) => void;
-  }
-  
-  const Header: React.FC<HeaderProps> = ({ onSearch }) => {
-    const subCategories = ["email", "My Account", "Wishlist", "Cart"];
-    const isMobile = useMediaQuery("(max-width:600px)");
-    const [searchQuery, setSearchQuery] = useState("");
-  
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const query = event.target.value;
-      setSearchQuery(query);
-      onSearch(query); 
-    };
-  
-    return (
-      <Box sx={{ flexGrow: 1, justifyContent: "space-between" }}>
-        <AppBar
-          position="static"
-          sx={{ backgroundColor: "white", color: "black" }}
-        >
-          <Toolbar
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4" component="div" sx={{ fontWeight: "bold" }}>
-              Shopi
-            </Typography>
-  
-            {!isMobile && (
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                sx={{ width: "40%", marginRight: "20px" }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-  
-            {isMobile ? (
-              <IconButton color="inherit">
-                <MenuIcon />
-              </IconButton>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 5,
-                }}
-              >
-                {subCategories.map((item, index) => (
-                  <Typography
-                    key={index}
-                    variant="subtitle1"
-                    component="div"
-                    sx={{
-                      cursor: "pointer",
-                      "&:hover": { color: "gray" },
-                    }}
-                  >
-                    {item}
-                  </Typography>
-                ))}
-              </Box>
-            )}
-          </Toolbar>
-        </AppBar>
-      </Box>
-    );
+import React from "react";
+import { AppBar, Toolbar, Typography, IconButton, Badge, Button, Box } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp"; 
+import { Link } from "react-router-dom";
+import { useCart } from "../Context/CartContext";
+import { useAuth } from "../Context/AuthContext"; 
+
+const Header: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }) => {
+  const { cart, getCartItemCount } = useCart();
+  const { user, logout } = useAuth(); 
+  const cartItemCount = getCartItemCount();
+
+  const handleLogout = () => {
+    logout();
   };
-  
-  export default Header;
-  
+
+  return (
+    <AppBar position="sticky">
+      <Toolbar>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          E-Commerce Store
+        </Typography>
+
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={(e) => onSearch(e.target.value)}
+          style={{ padding: "5px", borderRadius: "5px" }}
+        />
+
+        <Link to="/cart" style={{ textDecoration: "none", color: "white", marginLeft: "20px" }}>
+          <IconButton color="inherit">
+            <Badge badgeContent={cartItemCount} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+        </Link>
+
+        <Link to="/orders" style={{ textDecoration: "none", color: "white", marginLeft: "20px" }}>
+          <Button color="inherit">My Orders</Button>
+        </Link>
+
+        {user ? (
+          <Box sx={{ display: "flex", alignItems: "center", marginLeft: "20px" }}>
+            <Typography variant="body1" sx={{ marginRight: 2 }}>
+              Welcome, {user}
+            </Typography>
+            <IconButton color="inherit" onClick={handleLogout}>
+              <ExitToAppIcon />
+            </IconButton>
+          </Box>
+        ) : (
+          <Link to="/login" style={{ textDecoration: "none", color: "white", marginLeft: "20px" }}>
+            <Button color="inherit">Login</Button>
+          </Link>
+        )}
+      </Toolbar>
+    </AppBar> 
+  );
+};
+
+export default Header;
