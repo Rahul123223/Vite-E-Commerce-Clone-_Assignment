@@ -118,61 +118,6 @@ const Dashboard = ({ searchQuery }: { searchQuery: string }) => {
             <MenuItem value="title">Alphabetical</MenuItem>
           </Select>
         </FormControl>
-<form>
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      gap: 2,
-      backgroundColor: "#f9f9f9",
-      padding: 2,
-      borderRadius: 2,
-    }}
-  >
-    <RadioGroup.Root
-      defaultValue="default"
-      aria-label="View density"
-      style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-    >
-      {[
-        { value: "default", label: "Default" },
-        { value: "comfortable", label: "Comfortable" },
-        { value: "compact", label: "Compact" },
-      ].map((option) => (
-        <Box
-          key={option.value}
-          sx={{ display: "flex", alignItems: "center", gap: 1 }}
-        >
-          <RadioGroup.Item
-            value={option.value}
-            id={option.value}
-            style={{
-              height: 20,
-              width: 20,
-              borderRadius: "50%",
-              border: "2px solid #1D1D1F",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <RadioGroup.Indicator
-              style={{
-                height: 15, // Smaller inner dot
-                width: 15,
-                borderRadius: "50%",
-                backgroundColor: "#1D1D1F",
-              }}
-            />
-          </RadioGroup.Item>
-          <label htmlFor={option.value} style={{ cursor: "pointer" }}>
-            {option.label}
-          </label>
-        </Box>
-      ))}
-    </RadioGroup.Root>
-  </Box>
-</form>
         <Box
           sx={{
             display: "flex",
