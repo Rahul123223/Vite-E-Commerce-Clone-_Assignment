@@ -61,7 +61,7 @@ const Header: React.FC<{ onSearch: (query: string) => void }> = ({
           }}
           onClick={() => (window.location.href = "/")}
         >
-          Shopi
+          Shopee
         </Typography>
 
         {/* Search Bar */}
