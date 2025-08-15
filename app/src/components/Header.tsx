@@ -61,7 +61,7 @@ const Header: React.FC<{ onSearch: (query: string) => void }> = ({
           }}
           onClick={() => (window.location.href = "/")}
         >
-          Shopi
+          RG Shop
         </Typography>
 
         {/* Search Bar */}
@@ -72,7 +72,7 @@ const Header: React.FC<{ onSearch: (query: string) => void }> = ({
             sx={{
               width: "30%",
               padding: "6px 12px",
-              borderRadius: "5px",
+              borderRadius: "5px",ß
               backgroundColor: "#f0f0f0",
             }}
           />
