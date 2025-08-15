@@ -11,7 +11,7 @@ import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
-import { motion } from "framer-motion"; 
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -22,10 +22,10 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null); 
+    setError(null);
     try {
       await login(username, password);
-      navigate("/"); 
+      navigate("/");
     } catch (error: any) {
       setError("Failed to log in. Please check your credentials.");
     }
@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <Box
       sx={{
-        width: 400,
+        width: 500,
         mx: "auto",
         mt: 10,
         padding: 3,
