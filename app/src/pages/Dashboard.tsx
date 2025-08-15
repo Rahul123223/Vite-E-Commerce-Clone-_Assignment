@@ -13,7 +13,6 @@ import ProductCard from "../components/ProductCard";
 import CustomPagination from "../components/CustomPagination";
 import { fetchProducts } from "../services/productService";
 import { fetchCategories } from "../services/categoryService";
-import * as RadioGroup from "@radix-ui/react-radio-group"; // ✅ FIXED import
 
 
 
