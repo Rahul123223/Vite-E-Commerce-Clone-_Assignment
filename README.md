@@ -26,7 +26,11 @@ Material-UI's responsive grid system ensures that the layout adjusts smoothly fo
 7. User-Friendly Interface
 Clean, minimalistic design using Material-UI to ensure a visually appealing and intuitive interface.
 Easy navigation with clearly marked product cards, categories, and search options.
-
+8. Deployment on Vercel
+The app is deployed on Vercel for fast and reliable hosting, ensuring global availability.
+The app is optimized for both performance and scalability.
+Technologies Used
+React: Front-end framework for building the user interface.
 Vite: Build tool for fast development and optimized production builds.
 Material-UI: Component library for building UI using Material Design principles.
 React Router: Enables navigation between different pages (Product list, Product detail).
@@ -45,7 +49,12 @@ bash
 Copy
 Edit
 npm install
+3. Run the Development Server
+To start the app locally, run:
 
+bash
+Copy
+Edit
 npm run dev
 Your app will be available at http://localhost:3000.
 

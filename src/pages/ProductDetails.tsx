@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, CircularProgress, Typography, Button, Grid, Paper, Snackbar, Alert } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  Grid,
+  Paper,
+  Snackbar,
+  Alert,
+  IconButton,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import { useCart } from "../Context/CartContext"; // Import your cart context
 
@@ -56,7 +67,14 @@ const ProductDetails = () => {
 
   if (isLoading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <CircularProgress size={50} color="primary" />
       </Box>
     );
@@ -84,7 +102,11 @@ const ProductDetails = () => {
 
   return (
     <Box sx={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-      <Grid container spacing={4} sx={{ flexDirection: { xs: "column", sm: "row" } }}>
+      <Grid
+        container
+        spacing={4}
+        sx={{ flexDirection: { xs: "column", sm: "row" } }}
+      >
         {/* Product Image */}
         <Grid item xs={12} sm={6}>
           <ProductImage src={product.image} alt={product.title} />
@@ -92,11 +114,39 @@ const ProductDetails = () => {
 
         {/* Product Info */}
         <Grid item xs={12} sm={6}>
-          <Paper sx={{ padding: "20px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}>
+          <Paper
+            sx={{ padding: "20px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "20px",
+              }}
+            >
+              <IconButton
+                color="primary"
+                sx={{ fontSize: "bold" }}
+                onClick={() => window.history.back()}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+              <IconButton
+                color="secondary"
+                sx={{ fontSize: "bold" }}
+                onClick={handleAddToCart}
+              >
+                <AddShoppingCartIcon />
+              </IconButton>
+            </Box>
+
             <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
               {product.title}
             </Typography>
-            <Typography variant="h6" sx={{ color: "#333", marginBottom: "10px" }}>
+            <Typography
+              variant="h6"
+              sx={{ color: "#333", marginBottom: "10px" }}
+            >
               Price: <span style={{ color: "#00796b" }}>${product.price}</span>
             </Typography>
             <Typography variant="body1" paragraph sx={{ color: "#555" }}>
@@ -106,14 +156,14 @@ const ProductDetails = () => {
               Rating: {product.rating.rate} ({product.rating.count} reviews)
             </Typography>
 
-            <Box sx={{ display: "flex", gap: "10px", flexDirection: "column", alignItems: "flex-start" }}>
+            {/* <Box sx={{ display: "flex", gap: "10px", flexDirection: "column", alignItems: "flex-start" }}>
               <Button variant="contained" color="primary" onClick={() => window.history.back()}>
                 Go Back
               </Button>
               <Button variant="outlined" color="secondary" onClick={handleAddToCart}>
                 Add to Cart
               </Button>
-            </Box>
+            </Box> */}
           </Paper>
         </Grid>
       </Grid>
@@ -124,7 +174,11 @@ const ProductDetails = () => {
         autoHideDuration={3000}
         onClose={handleCloseSnack}
       >
-        <Alert onClose={handleCloseSnack} severity="success" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleCloseSnack}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           Product added to cart!
         </Alert>
       </Snackbar>
