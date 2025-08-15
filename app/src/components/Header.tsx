@@ -72,7 +72,7 @@ const Header: React.FC<{ onSearch: (query: string) => void }> = ({
             sx={{
               width: "30%",
               padding: "6px 12px",
-              borderRadius: "5px",ß
+              borderRadius: "5px",
               backgroundColor: "#f0f0f0",
             }}
           />
