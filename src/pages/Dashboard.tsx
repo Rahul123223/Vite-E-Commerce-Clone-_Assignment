@@ -13,7 +13,7 @@ import ProductCard from "../components/ProductCard";
 import CustomPagination from "../components/CustomPagination";
 import { fetchProducts } from "../services/productService";
 import { fetchCategories } from "../services/categoryService";
-
+import ProductNotFound from "../assets/ProductNotFound.png";
 
 
 const Dashboard = ({ searchQuery }: { searchQuery: string }) => {
@@ -144,7 +144,28 @@ const Dashboard = ({ searchQuery }: { searchQuery: string }) => {
 
       <Grow in timeout={500}>
         <Box>
-          <ProductCard products={paginatedProducts} />
+          {paginatedProducts.length > 0 ? (
+            <ProductCard products={paginatedProducts} />
+          ) : (
+            <Box
+              sx={{
+                textAlign: "center",
+                padding: "40px",
+                fontSize: "1.2rem",
+                color: "#777",
+              }}
+            >
+              <img
+                src={ProductNotFound}
+                alt="No products found"
+                style={{
+                  maxWidth: "700px",
+                  width: "100%",
+                  marginBottom: "20px",
+                }}
+              />
+            </Box>
+          )}
         </Box>
       </Grow>
 
