@@ -5,13 +5,13 @@ import {
   Typography,
   IconButton,
   Badge,
-  Button,
   Box,
   InputBase,
   Drawer,
   List,
   ListItem,
   ListItemText,
+  Divider,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -29,28 +29,41 @@ const Header: React.FC<{ onSearch: (query: string) => void }> = ({
   const cartItemCount = getCartItemCount();
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Responsive check for small screens
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [leftDrawerOpen, setLeftDrawerOpen] = React.useState(false);
+  const [rightDrawerOpen, setRightDrawerOpen] = React.useState(false);
 
-  const toggleDrawer = (open: boolean) => {
-    setDrawerOpen(open);
-  };
+  const toggleLeftDrawer = (open: boolean) => setLeftDrawerOpen(open);
+  const toggleRightDrawer = (open: boolean) => setRightDrawerOpen(open);
 
-  const handleLogout = () => {
-    logout();
-  };
+  const handleLogout = () => logout();
 
   return (
     <AppBar
       position="sticky"
       sx={{
-        backgroundColor: "white",
-        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px;",
-        color: "black",
+        backgroundColor: "#131921",
+        color: "white",
+        boxShadow: "none",
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          minHeight: "60px",
+        }}
+      >
+        {/* Left Hamburger Menu (always visible) */}
+        <IconButton
+          edge="start"
+          color="inherit"
+          onClick={() => toggleLeftDrawer(true)}
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton>
+
         {/* Logo */}
         <Typography
           variant="h6"
@@ -58,131 +71,181 @@ const Header: React.FC<{ onSearch: (query: string) => void }> = ({
           sx={{
             fontWeight: "bold",
             cursor: "pointer",
+            flexShrink: 0,
+            color: "white",
           }}
           onClick={() => (window.location.href = "/")}
         >
-          Shopi
+          RG Shop
         </Typography>
 
-        {/* Search Bar */}
+        {/* Search Bar (Amazon-style, center & wide) */}
         {!isMobile && (
-          <InputBase
-            placeholder="Search items..."
-            onChange={(e) => onSearch(e.target.value)}
+          <Box
             sx={{
-              width: "30%",
-              padding: "6px 12px",
-              borderRadius: "5px",
-              backgroundColor: "#f0f0f0",
+              flexGrow: 1,
+              maxWidth: "600px",
+              mx: 3,
+              backgroundColor: "white",
+              borderRadius: "4px",
+              display: "flex",
+              alignItems: "center",
+              px: 1,
             }}
-          />
+          >
+            <InputBase
+              placeholder="Search items..."
+              onChange={(e) => onSearch(e.target.value)}
+              sx={{
+                flex: 1,
+                color: "black",
+                px: 1,
+              }}
+            />
+          </Box>
         )}
 
         {/* Desktop Navigation */}
         {!isMobile ? (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Link to="/cart" style={{ textDecoration: "none", color: "black" }}>
-              <IconButton>
-                <Badge badgeContent={cartItemCount} color="error">
-                  <ShoppingCartIcon />
-                </Badge>
-              </IconButton>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Link to="/orders" style={{ textDecoration: "none" }}>
+              <Typography sx={{ color: "white", fontSize: 14 }}>
+                Returns & Orders
+              </Typography>
             </Link>
-            <Link
-              to="/orders"
-              style={{
-                textDecoration: "none",
-                color: "black",
-                marginLeft: "15px",
-              }}
-            >
-              <Button sx={{ color: "black" }}>Orders</Button>
-            </Link>
+
             {user ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginLeft: "20px",
-                }}
-              >
-                <Typography variant="body2" sx={{ marginRight: 2 }}>
-                  Welcome, {user}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Typography variant="body2" sx={{ color: "white" }}>
+                  Hello, {user}
                 </Typography>
                 <IconButton color="inherit" onClick={handleLogout}>
-                  <ExitToAppIcon />
+                  <ExitToAppIcon sx={{ color: "white" }} />
                 </IconButton>
               </Box>
             ) : (
-              <Link
-                to="/login"
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                  marginLeft: "15px",
-                }}
-              >
-                <Button sx={{ color: "black" }}>Login</Button>
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                <Typography sx={{ color: "white", fontSize: 14 }}>
+                  Sign In
+                </Typography>
               </Link>
             )}
+
+            <Link to="/cart" style={{ textDecoration: "none", color: "white" }}>
+              <IconButton>
+                <Badge badgeContent={cartItemCount} color="error">
+                  <ShoppingCartIcon sx={{ color: "white" }} />
+                </Badge>
+              </IconButton>
+            </Link>
           </Box>
         ) : (
+          // Right Drawer trigger (mobile)
           <IconButton
             edge="end"
             color="inherit"
-            onClick={() => toggleDrawer(true)}
+            onClick={() => toggleRightDrawer(true)}
           >
-            <MenuIcon />
+            <ShoppingCartIcon />
           </IconButton>
         )}
       </Toolbar>
 
-      {/* Mobile Search Bar */}
+      {/* Mobile Search Bar (below navbar) */}
       {isMobile && (
-        <Box sx={{ padding: "10px", backgroundColor: "#f8f8f8" }}>
-          <InputBase
-            placeholder="Search items..."
-            onChange={(e) => onSearch(e.target.value)}
+        <Box
+          sx={{
+            backgroundColor: "#232f3e",
+            px: 1,
+            py: 1,
+          }}
+        >
+          <Box
             sx={{
-              width: "100%",
-              padding: "6px 12px",
-              borderRadius: "5px",
-              backgroundColor: "#fff",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              backgroundColor: "white",
+              borderRadius: "4px",
+              px: 1,
+              display: "flex",
+              alignItems: "center",
             }}
-          />
+          >
+            <InputBase
+              placeholder="Search items..."
+              onChange={(e) => onSearch(e.target.value)}
+              sx={{
+                flex: 1,
+                color: "black",
+                px: 1,
+              }}
+            />
+          </Box>
         </Box>
       )}
 
-      {/* Drawer for Mobile Navigation */}
+      {/* Left Drawer (Hamburger menu for navigation) */}
+      <Drawer
+        anchor="left"
+        open={leftDrawerOpen}
+        onClose={() => toggleLeftDrawer(false)}
+      >
+        <Box sx={{ width: 250, backgroundColor: "#fff", height: "100%" }}>
+          <List>
+            <ListItem component={Link} to="/" onClick={() => toggleLeftDrawer(false)}>
+              <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem component={Link} to="/products" onClick={() => toggleLeftDrawer(false)}>
+              <ListItemText primary="Products" />
+            </ListItem>
+            <ListItem component={Link} to="/cart" onClick={() => toggleLeftDrawer(false)}>
+              <ListItemText primary="Cart" />
+            </ListItem>
+            <ListItem component={Link} to="/orders" onClick={() => toggleLeftDrawer(false)}>
+              <ListItemText primary="Orders" />
+            </ListItem>
+          </List>
+          <Divider />
+          {user ? (
+            <ListItem onClick={handleLogout}>
+              <ExitToAppIcon />
+              <ListItemText primary="Logout" sx={{ ml: 2 }} />
+            </ListItem>
+          ) : (
+            <ListItem component={Link} to="/login" onClick={() => toggleLeftDrawer(false)}>
+              <ListItemText primary="Login" />
+            </ListItem>
+          )}
+        </Box>
+      </Drawer>
+
+      {/* Right Drawer (Mobile actions: cart, orders, etc.) */}
       <Drawer
         anchor="right"
-        open={drawerOpen}
-        onClose={() => toggleDrawer(false)}
+        open={rightDrawerOpen}
+        onClose={() => toggleRightDrawer(false)}
       >
         <Box sx={{ width: 250 }}>
           <List>
-            <ListItem component={Link} to="/cart">
+            <ListItem component={Link} to="/cart" onClick={() => toggleRightDrawer(false)}>
               <Badge badgeContent={cartItemCount} color="error">
                 <ShoppingCartIcon />
               </Badge>
-              <ListItemText primary="Cart" sx={{ marginLeft: 2 }} />
+              <ListItemText primary="Cart" sx={{ ml: 2 }} />
             </ListItem>
-            <ListItem component={Link} to="/orders">
+            <ListItem component={Link} to="/orders" onClick={() => toggleRightDrawer(false)}>
               <ListItemText primary="Orders" />
             </ListItem>
             {user ? (
-              <ListItem component="button" onClick={handleLogout}>
+              <ListItem onClick={handleLogout}>
                 <ExitToAppIcon />
-                <ListItemText primary="Logout" sx={{ marginLeft: 2 }} />
+                <ListItemText primary="Logout" sx={{ ml: 2 }} />
               </ListItem>
             ) : (
-              <ListItem component={Link} to="/login">
+              <ListItem component={Link} to="/login" onClick={() => toggleRightDrawer(false)}>
                 <ListItemText primary="Login" />
               </ListItem>
             )}
           </List>
-        </Box>{" "}
+        </Box>
       </Drawer>
     </AppBar>
   );
