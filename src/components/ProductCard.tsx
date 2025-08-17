@@ -1,4 +1,4 @@
-import { Box, IconButton, Tooltip, Rating, Button } from "@mui/material";
+import { Box, Tooltip, Rating, Button } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
