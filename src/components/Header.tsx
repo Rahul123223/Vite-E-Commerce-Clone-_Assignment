@@ -46,6 +46,7 @@ const Header: React.FC<{ onSearch: (query: string) => void }> = ({
       sx={{
         backgroundColor: "#131921",
         color: "white",
+        boxShadow: "none",
       }}
     >
       <Toolbar
