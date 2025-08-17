@@ -40,6 +40,7 @@ const Header: React.FC<{ onSearch: (query: string) => void }> = ({
   const handleLogout = () => logout();
 
   return (
+    //added changes for sidebar
     <AppBar
       position="sticky"
       sx={{
